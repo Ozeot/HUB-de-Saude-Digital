@@ -13,8 +13,11 @@ Score SOFA → Avaliação da disfunção orgânica em pacientes graves.
 📱 Características Técnicas
 
 ✅ **Sem Necessidade de Login**
+
 ✅ **Calculos em Tempo Real**
+
 ✅ **Interface Intuitiva**
+
 ✅ **Progressive Web App (PWA) - Instalável em Android/IOS/Desktop**
 
 🎯 Objetivo
