@@ -10,6 +10,13 @@ Escala MEWS → Avaliação precoce de deterioração clínica.
 
 Score SOFA → Avaliação da disfunção orgânica em pacientes graves.
 
+📱 Características Técnicas
+
+✅ **Sem Necessidade de Login**
+✅ **Calculos em Tempo Real**
+✅ **Interface Intuitiva**
+✅ **Progressive Web App (PWA) - Instalável em Android/IOS/Desktop**
+
 🎯 Objetivo
 
 Fornecer uma ferramenta digital prática e acessível para apoiar decisões clínicas, promovendo segurança do paciente e agilidade no diagnóstico.
