@@ -1,4 +1,4 @@
-# HUB-de-Sa-de-Digital
+# HUB-de-Saude-Digital
 
 O HUB de Saúde Digital (HSD) é uma plataforma voltada para auxiliar profissionais de saúde na avaliação clínica rápida e precisa por meio de ferramentas validadas e reconhecidas na prática médica.
 
