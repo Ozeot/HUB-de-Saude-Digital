@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HUB de Saúde Digital</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="iconhsd.png">
+    <meta name="theme-color" content="#1e40af">
+    <link rel="icon" type="image/png" href="iconhsd.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+        }
+        
+        .parameter-row:nth-child(odd) {
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .result-box {
+            transition: all 0.3s ease;
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(220, 38, 38, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(220, 38, 38, 0);
+            }
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .calculator-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .calculator-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+    </style>
+</head>
+<body>
+    <div class="min-h-screen p-4 md:p-8">
+        <div class="max-w-6xl mx-auto">
+            <!-- Header Principal -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-6">
+                <div class="bg-gradient-to-r from-blue-600 to-blue-700 p-6 text-white">
+                    <h1 class="text-3xl md:text-4xl font-bold">HUB de Saúde Digital</h1>
+                    <p class="mt-2 opacity-90">Ferramentas de avaliação clínica para cuidados intensivos</p>
+                </div>
+            </div>
+
+            <!-- Tela Inicial -->
+            <div id="homeScreen" class="space-y-6">
+                <div class="text-center mb-8">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-4">Selecione uma Calculadora</h2>
+                    <p class="text-gray-600">Escolha a ferramenta de avaliação que deseja utilizar</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Card MEWS -->
+                    <div class="calculator-card bg-white rounded-xl shadow-lg p-6 border-l-4 border-red-500" onclick="showCalculator('mews')">
+                        <div class="flex items-center mb-4">
+                            <div class="bg-red-100 p-3 rounded-full mr-4">
+                                <svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800">Escala MEWS</h3>
+                                <p class="text-sm text-gray-600"><b>M</b>odified <b>E</b>arly <b>W</b>arning <b>S</b>core</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-700 mb-4">Ferramenta de triagem para identificar pacientes com risco de deterioração clínica e sepse.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-500">6 parâmetros</span>
+                            <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-medium">Sepse</span>
+                        </div>
+                    </div>
+
+                    <!-- Card SOFA -->
+                    <div class="calculator-card bg-white rounded-xl shadow-lg p-6 border-l-4 border-blue-500" onclick="showCalculator('sofa')">
+                        <div class="flex items-center mb-4">
+                            <div class="bg-blue-100 p-3 rounded-full mr-4">
+                                <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800">Score SOFA</h3>
+                                <p class="text-sm text-gray-600"><b>S</b>equential <b>O</b>rgan <b>F</b>ailure <b>A</b>ssessment)</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-700 mb-4">Avaliação de disfunção orgânica múltipla em pacientes críticos internados em UTI.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-500">6 sistemas orgânicos</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">UTI</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Informações Gerais -->
+                <div class="bg-white rounded-xl shadow-lg p-6 mt-8">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Sobre as Calculadoras</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-gray-600">
+                        <div>
+                            <h4 class="font-medium text-gray-800 mb-2">MEWS - Detecção Precoce de Sepse</h4>
+                            <ul class="space-y-1">
+                                <li>• Frequência respiratória</li>
+                                <li>• Frequência cardíaca</li>
+                                <li>• Pressão arterial sistólica</li>
+                                <li>• Temperatura</li>
+                                <li>• Nível de consciência</li>
+                                <li>• Débito urinário</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-medium text-gray-800 mb-2">SOFA - Disfunção Orgânica</h4>
+                            <ul class="space-y-1">
+                                <li>• Sistema respiratório</li>
+                                <li>• Sistema de coagulação</li>
+                                <li>• Sistema hepático</li>
+                                <li>• Sistema cardiovascular</li>
+                                <li>• Sistema nervoso central</li>
+                                <li>• Sistema renal</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Calculadora MEWS -->
+            <div id="mewsCalculator" class="tab-content">
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="bg-red-600 p-6 text-white">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <h1 class="text-2xl md:text-3xl font-bold">Escala MEWS para Detecção de Sepse</h1>
+                                <p class="mt-2 opacity-90">Ferramenta de avaliação para identificação precoce de sepse</p>
+                            </div>
+                            <button onclick="showHome()" class="bg-red-700 hover:bg-red-800 px-4 py-2 rounded-lg transition">
+                                ← Voltar
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="p-6">
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Informações do Paciente</label>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <input type="text" id="mewsPatientName" placeholder="Nome do Paciente" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500">
+                                <input type="text" id="mewsPatientId" placeholder="ID do Paciente" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500">
+                            </div>
+                        </div>
+                        
+                        <div class="bg-red-50 rounded-lg p-4 mb-6">
+                            <h2 class="text-lg font-semibold text-red-800 mb-4">Parâmetros Fisiológicos</h2>
+                            
+                            <div class="space-y-4">
+                                <!-- Frequência Respiratória -->
+                                <div class="parameter-row p-3 rounded-lg">
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Frequência Respiratória (resp/min)</label>
+                                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
+                                        <button class="mews-resp-btn p-2 border border-gray-300 rounded-lg hover:bg-red-100" data-value="0" data-range="≤ 8">≤ 8</button>
+                                        <button class="mews-resp-btn p-2 border border-gray-300 rounded-lg hover:bg-red-100" data-value="1" data-range="9-14">9-14</button>
+                                        <button class="mews-resp-btn p-2 border border-gray-300 rounded-lg hover:bg-red-100" data-value="2" data-range="15-20">15-20</button>
+                                        <button class="mews-resp-btn p-2 border border-gray-300 rounded-lg hover:bg-red-100" data-value="2" data-range="21-29">21-29</button>
+                                        <button class="mews-resp-btn p-2 border border-gray-300 rounded-lg hover:bg-red-100" data-value="3" data-range="≥ 30">≥ 30</button>
+                                    </div>
+                                    <input type="hidden" id="mewsRespScore" value="">
+                                </div>
+                                
+                                <!-- Frequência Cardíaca -->
+                                <div class="parameter-row p-3 rounded-lg">
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Frequência Cardíaca (bpm)</label>
+                                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
+                                        <button class="mews-hr-btn p-2 border border-gray-300 rounded-lg hover:bg-red-100" data-value="2" data-range="≤ 40">≤ 40</button>
+                                        <button class="mews-hr-btn p-2 border border-gray-300 rounded-lg hover:bg-red-100" data-value="1" data-range="41-50">41-50</button>
+                                        <button class="mews-hr-btn p-2 border border-gray-300 rounded-lg hover:bg-red-100" data-value="0" data-range="51-100">51-100</button>
+                                        <button class="mews-hr-btn p-2 border border-gray-300 rounded-lg hover:bg-red-100" data-value="1" data-range="101-110">101-110</button>
+                                        <button class="mews-hr-btn p-2 border border-gray-300 rounded-lg hover:bg-red-100" data-value="2" data-range="111-129">111-129</button>
+                                        <button class="mews-hr-btn p-2 border border-gray-300 rounded-lg hover:bg-red-100 mt-2" data-value="3" data-range="≥ 130">≥ 130</button>
+                                    </div>
+                                    <input type="hidden" id="mewsHrScore" value="">
+                                </div>
+                                
+                                <!-- Pressão Arterial Sistólica -->
+                                <div class="parameter-row p-3 rounded-lg">
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Pressão Arterial Sistólica (mmHg)</label>
+                                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
+                                        <button class="mews-bp-btn p-2 border border-gray-300 rounded-lg hover:bg-red-100" data-value="3" data-range="≤ 70">≤ 70</button>
+                                        <button class="mews-bp-btn p-2 border border-gray-300 rounded-lg hover:bg-red-100" data-value="2" data-range="71-80">71-80</button>
+                                        <button class="mews-bp-btn p-2 border border-gray-300 rounded-lg hover:bg-red-100" data-value="1" data-range="81-100">81-100</button>
+                                        <button class="mews-bp-btn p-2 border border-gray-300 rounded-lg hover:bg-red-100" data-value="0" data-range="101-199">101-199</button>
+                                        <button class="mews-bp-btn p-2 border border-gray-300 rounded-lg hover:bg-red-100" data-value="2" data-range="≥ 200">≥ 200</button>
+                                    </div>
+                                    <input type="hidden" id="mewsBpScore" value="">
+                                </div>
+                                
+                                <!-- Temperatura -->
+                                <div class="parameter-row p-3 rounded-lg">
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Temperatura (°C)</label>
+                                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
+                                        <button class="mews-temp-btn p-2 border border-gray-300 rounded-lg hover:bg-red-100" data-value="2" data-range="≤ 35.0">≤ 35.0</button>
+                                        <button class="mews-temp-btn p-2 border border-gray-300 rounded-lg hover:bg-red-100" data-value="0" data-range="35.1-38.4">35.1-38.4</button>
+                                        <button class="mews-temp-btn p-2 border border-gray-300 rounded-lg hover:bg-red-100" data-value="2" data-range="≥ 38.5">≥ 38.5</button>
+                                    </div>
+                                    <input type="hidden" id="mewsTempScore" value="">
+                                </div>
+                                
+                                <!-- Nível de Consciência -->
+                                <div class="parameter-row p-3 rounded-lg">
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Nível de Consciência</label>
+                                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
+                                        <button class="mews-consc-btn p-2 border border-gray-300 rounded-lg hover:bg-red-100" data-value="0" data-range="Alerta">Alerta</button>
+                                        <button class="mews-consc-btn p-2 border border-gray-300 rounded-lg hover:bg-red-100" data-value="1" data-range="Reativo à voz">Reativo à voz</button>
+                                        <button class="mews-consc-btn p-2 border border-gray-300 rounded-lg hover:bg-red-100" data-value="2" data-range="Reativo à dor">Reativo à dor</button>
+                                        <button class="mews-consc-btn p-2 border border-gray-300 rounded-lg hover:bg-red-100" data-value="3" data-range="Irresponsivo">Irresponsivo</button>
+                                    </div>
+                                    <input type="hidden" id="mewsConscScore" value="">
+                                </div>
+                                
+                                <!-- Débito Urinário -->
+                                <div class="parameter-row p-3 rounded-lg">
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Débito Urinário (ml/kg/h)</label>
+                                    <div class="grid grid-cols-3 gap-2">
+                                        <button class="mews-urine-btn p-2 border border-gray-300 rounded-lg hover:bg-red-100" data-value="3" data-range="Nulo">Nulo</button>
+                                        <button class="mews-urine-btn p-2 border border-gray-300 rounded-lg hover:bg-red-100" data-value="2" data-range="< 0.5">< 0.5</button>
+                                        <button class="mews-urine-btn p-2 border border-gray-300 rounded-lg hover:bg-red-100" data-value="0" data-range="≥ 0.5">≥ 0.5</button>
+                                    </div>
+                                    <input type="hidden" id="mewsUrineScore" value="">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-center mb-6">
+                            <button id="mewsCalculateBtn" class="bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105">
+                                Calcular Pontuação MEWS
+                            </button>
+                        </div>
+                        
+                        <div id="mewsResultContainer" class="hidden">
+                            <div class="bg-gray-50 border rounded-lg p-6">
+                                <h3 class="text-lg font-semibold mb-4">Resultado da Avaliação</h3>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div class="bg-white p-4 rounded-lg shadow-sm border">
+                                        <div class="text-center">
+                                            <p class="text-gray-600 mb-2">Pontuação Total MEWS</p>
+                                            <div id="mewsTotalScore" class="text-4xl font-bold text-red-600">0</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div id="mewsResultBox" class="result-box p-4 rounded-lg shadow-sm border">
+                                        <p class="font-medium mb-2">Interpretação:</p>
+                                        <p id="mewsInterpretation" class="text-gray-800"></p>
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-6">
+                                    <h4 class="font-medium mb-3">Parâmetros Selecionados:</h4>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div id="mewsSelectedParams" class="text-sm text-gray-600"></div>
+                                        <div id="mewsSelectedScores" class="text-sm text-gray-600"></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-6 pt-4 border-t border-gray-200">
+                                    <div class="flex justify-between items-center">
+                                        <p class="text-sm text-gray-500">Data da avaliação: <span id="mewsCurrentDate"></span></p>
+                                        <button id="mewsPrintBtn" class="text-red-600 hover:text-red-800 text-sm font-medium flex items-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                                            </svg>
+                                            Imprimir Resultado
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8 bg-red-50 rounded-lg p-4">
+                            <h3 class="text-lg font-semibold text-red-800 mb-2">Informações sobre a Escala MEWS</h3>
+                            <p class="text-gray-700 mb-3">A Escala MEWS (Modified Early Warning Score) é uma ferramenta de triagem para identificar pacientes com risco de deterioração clínica, incluindo sepse.</p>
+                            <div class="text-sm text-gray-600">
+                                <p class="mb-2"><strong>Interpretação da pontuação:</strong></p>
+                                <ul class="list-disc pl-5 space-y-1">
+                                    <li>0-1: Baixo risco</li>
+                                    <li>2-3: Risco moderado - Avaliação necessária</li>
+                                    <li>4-5: Risco alto - Intervenção urgente recomendada</li>
+                                    <li>≥ 6: Risco crítico - Intervenção imediata necessária</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Calculadora SOFA -->
+            <div id="sofaCalculator" class="tab-content">
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="bg-blue-600 p-6 text-white">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <h1 class="text-2xl md:text-3xl font-bold">Score SOFA - Avaliação de Disfunção Orgânica</h1>
+                                <p class="mt-2 opacity-90">Sequential Organ Failure Assessment para avaliação de falência orgânica</p>
+                            </div>
+                            <button onclick="showHome()" class="bg-blue-700 hover:bg-blue-800 px-4 py-2 rounded-lg transition">
+                                ← Voltar
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="p-6">
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Informações do Paciente</label>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <input type="text" id="sofaPatientName" placeholder="Nome do Paciente" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <input type="text" id="sofaPatientId" placeholder="ID do Paciente" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                        </div>
+                        
+                        <div class="bg-blue-50 rounded-lg p-4 mb-6">
+                            <h2 class="text-lg font-semibold text-blue-800 mb-4">Parâmetros SOFA</h2>
+                            
+                            <div class="space-y-4">
+                                <!-- Respiração (PaO2/FiO2) -->
+                                <div class="parameter-row p-3 rounded-lg">
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Respiração - PaO2/FiO2 (mmHg)</label>
+                                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
+                                        <button class="sofa-resp-btn p-2 border border-gray-300 rounded-lg hover:bg-blue-100" data-value="0" data-range="≥ 400">≥ 400</button>
+                                        <button class="sofa-resp-btn p-2 border border-gray-300 rounded-lg hover:bg-blue-100" data-value="1" data-range="300-399">300-399</button>
+                                        <button class="sofa-resp-btn p-2 border border-gray-300 rounded-lg hover:bg-blue-100" data-value="2" data-range="200-299">200-299</button>
+                                        <button class="sofa-resp-btn p-2 border border-gray-300 rounded-lg hover:bg-blue-100" data-value="3" data-range="100-199">100-199</button>
+                                        <button class="sofa-resp-btn p-2 border border-gray-300 rounded-lg hover:bg-blue-100" data-value="4" data-range="< 100">< 100</button>
+                                    </div>
+                                    <input type="hidden" id="sofaRespScore" value="">
+                                </div>
+                                
+                                <!-- Coagulação (Plaquetas) -->
+                                <div class="parameter-row p-3 rounded-lg">
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Coagulação - Plaquetas (×10³/μL)</label>
+                                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
+                                        <button class="sofa-coag-btn p-2 border border-gray-300 rounded-lg hover:bg-blue-100" data-value="0" data-range="≥ 150">≥ 150</button>
+                                        <button class="sofa-coag-btn p-2 border border-gray-300 rounded-lg hover:bg-blue-100" data-value="1" data-range="100-149">100-149</button>
+                                        <button class="sofa-coag-btn p-2 border border-gray-300 rounded-lg hover:bg-blue-100" data-value="2" data-range="50-99">50-99</button>
+                                        <button class="sofa-coag-btn p-2 border border-gray-300 rounded-lg hover:bg-blue-100" data-value="3" data-range="20-49">20-49</button>
+                                        <button class="sofa-coag-btn p-2 border border-gray-300 rounded-lg hover:bg-blue-100" data-value="4" data-range="< 20">< 20</button>
+                                    </div>
+                                    <input type="hidden" id="sofaCoagScore" value="">
+                                </div>
+                                
+                                <!-- Fígado (Bilirrubina) -->
+                                <div class="parameter-row p-3 rounded-lg">
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Fígado - Bilirrubina (mg/dL)</label>
+                                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
+                                        <button class="sofa-liver-btn p-2 border border-gray-300 rounded-lg hover:bg-blue-100" data-value="0" data-range="< 1.2">< 1.2</button>
+                                        <button class="sofa-liver-btn p-2 border border-gray-300 rounded-lg hover:bg-blue-100" data-value="1" data-range="1.2-1.9">1.2-1.9</button>
+                                        <button class="sofa-liver-btn p-2 border border-gray-300 rounded-lg hover:bg-blue-100" data-value="2" data-range="2.0-5.9">2.0-5.9</button>
+                                        <button class="sofa-liver-btn p-2 border border-gray-300 rounded-lg hover:bg-blue-100" data-value="3" data-range="6.0-11.9">6.0-11.9</button>
+                                        <button class="sofa-liver-btn p-2 border border-gray-300 rounded-lg hover:bg-blue-100" data-value="4" data-range="≥ 12.0">≥ 12.0</button>
+                                    </div>
+                                    <input type="hidden" id="sofaLiverScore" value="">
+                                </div>
+                                
+                                <!-- Cardiovascular -->
+                                <div class="parameter-row p-3 rounded-lg">
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Cardiovascular - Pressão Arterial/Vasopressores</label>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+                                        <button class="sofa-cardio-btn p-2 border border-gray-300 rounded-lg hover:bg-blue-100" data-value="0" data-range="PAM ≥ 70">PAM ≥ 70</button>
+                                        <button class="sofa-cardio-btn p-2 border border-gray-300 rounded-lg hover:bg-blue-100" data-value="1" data-range="PAM < 70">PAM < 70</button>
+                                        <button class="sofa-cardio-btn p-2 border border-gray-300 rounded-lg hover:bg-blue-100" data-value="2" data-range="Dopamina ≤ 5">Dopamina ≤ 5</button>
+                                        <button class="sofa-cardio-btn p-2 border border-gray-300 rounded-lg hover:bg-blue-100" data-value="3" data-range="Dopamina > 5">Dopamina > 5</button>
+                                        <button class="sofa-cardio-btn p-2 border border-gray-300 rounded-lg hover:bg-blue-100" data-value="4" data-range="Noradrenalina">Noradrenalina</button>
+                                    </div>
+                                    <input type="hidden" id="sofaCardioScore" value="">
+                                </div>
+                                
+                                <!-- Sistema Nervoso Central -->
+                                <div class="parameter-row p-3 rounded-lg">
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Sistema Nervoso Central - Escala de Glasgow</label>
+                                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
+                                        <button class="sofa-neuro-btn p-2 border border-gray-300 rounded-lg hover:bg-blue-100" data-value="0" data-range="15">15</button>
+                                        <button class="sofa-neuro-btn p-2 border border-gray-300 rounded-lg hover:bg-blue-100" data-value="1" data-range="13-14">13-14</button>
+                                        <button class="sofa-neuro-btn p-2 border border-gray-300 rounded-lg hover:bg-blue-100" data-value="2" data-range="10-12">10-12</button>
+                                        <button class="sofa-neuro-btn p-2 border border-gray-300 rounded-lg hover:bg-blue-100" data-value="3" data-range="6-9">6-9</button>
+                                        <button class="sofa-neuro-btn p-2 border border-gray-300 rounded-lg hover:bg-blue-100" data-value="4" data-range="< 6">< 6</button>
+                                    </div>
+                                    <input type="hidden" id="sofaNeuroScore" value="">
+                                </div>
+                                
+                                <!-- Renal -->
+                                <div class="parameter-row p-3 rounded-lg">
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Renal - Creatinina (mg/dL) ou Débito Urinário</label>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+                                        <button class="sofa-renal-btn p-2 border border-gray-300 rounded-lg hover:bg-blue-100" data-value="0" data-range="< 1.2">< 1.2</button>
+                                        <button class="sofa-renal-btn p-2 border border-gray-300 rounded-lg hover:bg-blue-100" data-value="1" data-range="1.2-1.9">1.2-1.9</button>
+                                        <button class="sofa-renal-btn p-2 border border-gray-300 rounded-lg hover:bg-blue-100" data-value="2" data-range="2.0-3.4">2.0-3.4</button>
+                                        <button class="sofa-renal-btn p-2 border border-gray-300 rounded-lg hover:bg-blue-100" data-value="3" data-range="3.5-4.9">3.5-4.9</button>
+                                        <button class="sofa-renal-btn p-2 border border-gray-300 rounded-lg hover:bg-blue-100" data-value="4" data-range="≥ 5.0">≥ 5.0</button>
+                                    </div>
+                                    <input type="hidden" id="sofaRenalScore" value="">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-center mb-6">
+                            <button id="sofaCalculateBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105">
+                                Calcular Score SOFA
+                            </button>
+                        </div>
+                        
+                        <div id="sofaResultContainer" class="hidden">
+                            <div class="bg-gray-50 border rounded-lg p-6">
+                                <h3 class="text-lg font-semibold mb-4">Resultado da Avaliação</h3>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div class="bg-white p-4 rounded-lg shadow-sm border">
+                                        <div class="text-center">
+                                            <p class="text-gray-600 mb-2">Score SOFA Total</p>
+                                            <div id="sofaTotalScore" class="text-4xl font-bold text-blue-600">0</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div id="sofaResultBox" class="result-box p-4 rounded-lg shadow-sm border">
+                                        <p class="font-medium mb-2">Interpretação:</p>
+                                        <p id="sofaInterpretation" class="text-gray-800"></p>
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-6">
+                                    <h4 class="font-medium mb-3">Parâmetros Selecionados:</h4>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div id="sofaSelectedParams" class="text-sm text-gray-600"></div>
+                                        <div id="sofaSelectedScores" class="text-sm text-gray-600"></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-6 pt-4 border-t border-gray-200">
+                                    <div class="flex justify-between items-center">
+                                        <p class="text-sm text-gray-500">Data da avaliação: <span id="sofaCurrentDate"></span></p>
+                                        <button id="sofaPrintBtn" class="text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                                            </svg>
+                                            Imprimir Resultado
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8 bg-blue-50 rounded-lg p-4">
+                            <h3 class="text-lg font-semibold text-blue-800 mb-2">Informações sobre o Score SOFA</h3>
+                            <p class="text-gray-700 mb-3">O Score SOFA (Sequential Organ Failure Assessment) avalia a disfunção de seis sistemas orgânicos e é usado para determinar a gravidade da doença em pacientes críticos.</p>
+                            <div class="text-sm text-gray-600">
+                                <p class="mb-2"><strong>Interpretação da pontuação:</strong></p>
+                                <ul class="list-disc pl-5 space-y-1">
+                                    <li>0-6: Baixo risco de mortalidade</li>
+                                    <li>7-9: Risco moderado de mortalidade (~15-20%)</li>
+                                    <li>10-12: Risco alto de mortalidade (~40-50%)</li>
+                                    <li>13-14: Risco muito alto de mortalidade (~50-60%)</li>
+                                    <li>≥ 15: Risco extremamente alto de mortalidade (>80%)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer class="mt-8 text-center text-gray-500 text-sm">
+            <p>Esta ferramenta é apenas para fins de avaliação clínica e não substitui o julgamento médico profissional.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Navegação entre telas
+        function showHome() {
+            document.getElementById('homeScreen').style.display = 'block';
+            document.getElementById('mewsCalculator').classList.remove('active');
+            document.getElementById('sofaCalculator').classList.remove('active');
+        }
+
+        function showCalculator(type) {
+            document.getElementById('homeScreen').style.display = 'none';
+            if (type === 'mews') {
+                document.getElementById('mewsCalculator').classList.add('active');
+                document.getElementById('sofaCalculator').classList.remove('active');
+            } else if (type === 'sofa') {
+                document.getElementById('sofaCalculator').classList.add('active');
+                document.getElementById('mewsCalculator').classList.remove('active');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // MEWS Calculator
+            const mewsParamButtons = document.querySelectorAll('.mews-resp-btn, .mews-hr-btn, .mews-bp-btn, .mews-temp-btn, .mews-consc-btn, .mews-urine-btn');
+            
+            mewsParamButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const paramClass = this.className.split(' ')[0];
+                    document.querySelectorAll('.' + paramClass).forEach(btn => {
+                        btn.classList.remove('bg-red-500', 'text-white');
+                        btn.classList.add('hover:bg-red-100');
+                    });
+                    
+                    this.classList.add('bg-red-500', 'text-white');
+                    this.classList.remove('hover:bg-red-100');
+                    
+                    const scoreField = document.getElementById(paramClass.replace('-btn', 'Score'));
+                    scoreField.value = this.getAttribute('data-value');
+                });
+            });
+
+            // SOFA Calculator
+            const sofaParamButtons = document.querySelectorAll('.sofa-resp-btn, .sofa-coag-btn, .sofa-liver-btn, .sofa-cardio-btn, .sofa-neuro-btn, .sofa-renal-btn');
+            
+            sofaParamButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const paramClass = this.className.split(' ')[0];
+                    document.querySelectorAll('.' + paramClass).forEach(btn => {
+                        btn.classList.remove('bg-blue-500', 'text-white');
+                        btn.classList.add('hover:bg-blue-100');
+                    });
+                    
+                    this.classList.add('bg-blue-500', 'text-white');
+                    this.classList.remove('hover:bg-blue-100');
+                    
+                    const scoreField = document.getElementById(paramClass.replace('-btn', 'Score'));
+                    scoreField.value = this.getAttribute('data-value');
+                });
+            });
+            
+            // Event Listeners
+            document.getElementById('mewsCalculateBtn').addEventListener('click', calculateMEWS);
+            document.getElementById('sofaCalculateBtn').addEventListener('click', calculateSOFA);
+            document.getElementById('mewsPrintBtn').addEventListener('click', function() { window.print(); });
+            document.getElementById('sofaPrintBtn').addEventListener('click', function() { window.print(); });
+            
+            // Set current dates
+            const now = new Date();
+            const dateString = now.toLocaleDateString() + ' ' + now.toLocaleTimeString();
+            document.getElementById('mewsCurrentDate').textContent = dateString;
+            document.getElementById('sofaCurrentDate').textContent = dateString;
+        });
+        
+        function calculateMEWS() {
+            const respScore = parseInt(document.getElementById('mewsRespScore').value || 0);
+            const hrScore = parseInt(document.getElementById('mewsHrScore').value || 0);
+            const bpScore = parseInt(document.getElementById('mewsBpScore').value || 0);
+            const tempScore = parseInt(document.getElementById('mewsTempScore').value || 0);
+            const conscScore = parseInt(document.getElementById('mewsConscScore').value || 0);
+            const urineScore = parseInt(document.getElementById('mewsUrineScore').value || 0);
+            
+            const totalScore = respScore + hrScore + bpScore + tempScore + conscScore + urineScore;
+            
+            document.getElementById('mewsTotalScore').textContent = totalScore;
+            
+            let interpretation = '';
+            let resultBoxClass = '';
+            
+            if (totalScore <= 1) {
+                interpretation = 'Baixo risco. Monitoramento de rotina.';
+                resultBoxClass = 'bg-green-50 border-green-200';
+            } else if (totalScore <= 3) {
+                interpretation = 'Risco moderado. Avaliação clínica necessária.';
+                resultBoxClass = 'bg-yellow-50 border-yellow-200';
+            } else if (totalScore <= 5) {
+                interpretation = 'Risco alto. Intervenção urgente recomendada. Considerar avaliação para sepse.';
+                resultBoxClass = 'bg-orange-50 border-orange-200';
+            } else {
+                interpretation = 'Risco crítico. Intervenção imediata necessária. Alta suspeita de sepse.';
+                resultBoxClass = 'bg-red-50 border-red-200 pulse';
+            }
+            
+            document.getElementById('mewsInterpretation').textContent = interpretation;
+            
+            const resultBox = document.getElementById('mewsResultBox');
+            resultBox.className = 'result-box p-4 rounded-lg shadow-sm border ' + resultBoxClass;
+            
+            // Display selected parameters
+            let selectedParams = '';
+            let selectedScores = '';
+            
+            if (document.querySelector('.mews-resp-btn.bg-red-500')) {
+                selectedParams += '<div>Frequência Respiratória: ' + document.querySelector('.mews-resp-btn.bg-red-500').getAttribute('data-range') + '</div>';
+                selectedScores += '<div>Pontos: ' + respScore + '</div>';
+            }
+            
+            if (document.querySelector('.mews-hr-btn.bg-red-500')) {
+                selectedParams += '<div>Frequência Cardíaca: ' + document.querySelector('.mews-hr-btn.bg-red-500').getAttribute('data-range') + '</div>';
+                selectedScores += '<div>Pontos: ' + hrScore + '</div>';
+            }
+            
+            if (document.querySelector('.mews-bp-btn.bg-red-500')) {
+                selectedParams += '<div>Pressão Arterial Sistólica: ' + document.querySelector('.mews-bp-btn.bg-red-500').getAttribute('data-range') + '</div>';
+                selectedScores += '<div>Pontos: ' + bpScore + '</div>';
+            }
+            
+            if (document.querySelector('.mews-temp-btn.bg-red-500')) {
+                selectedParams += '<div>Temperatura: ' + document.querySelector('.mews-temp-btn.bg-red-500').getAttribute('data-range') + '</div>';
+                selectedScores += '<div>Pontos: ' + tempScore + '</div>';
+            }
+            
+            if (document.querySelector('.mews-consc-btn.bg-red-500')) {
+                selectedParams += '<div>Nível de Consciência: ' + document.querySelector('.mews-consc-btn.bg-red-500').getAttribute('data-range') + '</div>';
+                selectedScores += '<div>Pontos: ' + conscScore + '</div>';
+            }
+            
+            if (document.querySelector('.mews-urine-btn.bg-red-500')) {
+                selectedParams += '<div>Débito Urinário: ' + document.querySelector('.mews-urine-btn.bg-red-500').getAttribute('data-range') + '</div>';
+                selectedScores += '<div>Pontos: ' + urineScore + '</div>';
+            }
+            
+            document.getElementById('mewsSelectedParams').innerHTML = selectedParams;
+            document.getElementById('mewsSelectedScores').innerHTML = selectedScores;
+            
+            document.getElementById('mewsResultContainer').classList.remove('hidden');
+        }
+        
+        function calculateSOFA() {
+            const respScore = parseInt(document.getElementById('sofaRespScore').value || 0);
+            const coagScore = parseInt(document.getElementById('sofaCoagScore').value || 0);
+            const liverScore = parseInt(document.getElementById('sofaLiverScore').value || 0);
+            const cardioScore = parseInt(document.getElementById('sofaCardioScore').value || 0);
+            const neuroScore = parseInt(document.getElementById('sofaNeuroScore').value || 0);
+            const renalScore = parseInt(document.getElementById('sofaRenalScore').value || 0);
+            
+            const totalScore = respScore + coagScore + liverScore + cardioScore + neuroScore + renalScore;
+            
+            document.getElementById('sofaTotalScore').textContent = totalScore;
+            
+            let interpretation = '';
+            let resultBoxClass = '';
+            
+            if (totalScore <= 6) {
+                interpretation = 'Baixo risco de mortalidade. Monitoramento contínuo recomendado.';
+                resultBoxClass = 'bg-green-50 border-green-200';
+            } else if (totalScore <= 9) {
+                interpretation = 'Risco moderado de mortalidade (~15-20%). Cuidados intensivos necessários.';
+                resultBoxClass = 'bg-yellow-50 border-yellow-200';
+            } else if (totalScore <= 12) {
+                interpretation = 'Risco alto de mortalidade (~40-50%). Intervenção agressiva necessária.';
+                resultBoxClass = 'bg-orange-50 border-orange-200';
+            } else if (totalScore <= 14) {
+                interpretation = 'Risco muito alto de mortalidade (~50-60%). Cuidados críticos intensivos.';
+                resultBoxClass = 'bg-red-50 border-red-200';
+            } else {
+                interpretation = 'Risco extremamente alto de mortalidade (>80%). Prognóstico reservado.';
+                resultBoxClass = 'bg-red-50 border-red-200 pulse';
+            }
+            
+            document.getElementById('sofaInterpretation').textContent = interpretation;
+            
+            const resultBox = document.getElementById('sofaResultBox');
+            resultBox.className = 'result-box p-4 rounded-lg shadow-sm border ' + resultBoxClass;
+            
+            // Display selected parameters
+            let selectedParams = '';
+            let selectedScores = '';
+            
+            if (document.querySelector('.sofa-resp-btn.bg-blue-500')) {
+                selectedParams += '<div>Respiração (PaO2/FiO2): ' + document.querySelector('.sofa-resp-btn.bg-blue-500').getAttribute('data-range') + '</div>';
+                selectedScores += '<div>Pontos: ' + respScore + '</div>';
+            }
+            
+            if (document.querySelector('.sofa-coag-btn.bg-blue-500')) {
+                selectedParams += '<div>Coagulação (Plaquetas): ' + document.querySelector('.sofa-coag-btn.bg-blue-500').getAttribute('data-range') + '</div>';
+                selectedScores += '<div>Pontos: ' + coagScore + '</div>';
+            }
+            
+            if (document.querySelector('.sofa-liver-btn.bg-blue-500')) {
+                selectedParams += '<div>Fígado (Bilirrubina): ' + document.querySelector('.sofa-liver-btn.bg-blue-500').getAttribute('data-range') + '</div>';
+                selectedScores += '<div>Pontos: ' + liverScore + '</div>';
+            }
+            
+            if (document.querySelector('.sofa-cardio-btn.bg-blue-500')) {
+                selectedParams += '<div>Cardiovascular: ' + document.querySelector('.sofa-cardio-btn.bg-blue-500').getAttribute('data-range') + '</div>';
+                selectedScores += '<div>Pontos: ' + cardioScore + '</div>';
+            }
+            
+            if (document.querySelector('.sofa-neuro-btn.bg-blue-500')) {
+                selectedParams += '<div>Sistema Nervoso (Glasgow): ' + document.querySelector('.sofa-neuro-btn.bg-blue-500').getAttribute('data-range') + '</div>';
+                selectedScores += '<div>Pontos: ' + neuroScore + '</div>';
+            }
+            
+            if (document.querySelector('.sofa-renal-btn.bg-blue-500')) {
+                selectedParams += '<div>Renal (Creatinina): ' + document.querySelector('.sofa-renal-btn.bg-blue-500').getAttribute('data-range') + '</div>';
+                selectedScores += '<div>Pontos: ' + renalScore + '</div>';
+            }
+            
+            document.getElementById('sofaSelectedParams').innerHTML = selectedParams;
+            document.getElementById('sofaSelectedScores').innerHTML = selectedScores;
+            
+            document.getElementById('sofaResultContainer').classList.remove('hidden');
+        }
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'976e0a5d547d2497',t:'MTc1NjQ5MTM5OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
