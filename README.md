@@ -21,11 +21,13 @@ Calculadora de Balanço Hídrico → Controle preciso de entradas e saídas híd
 ✅ **Calculos em Tempo Real**
  
 ✅ **Interface Intuitiva**
+
 Navegação por Gestos: Swipe para voltar, suporte ao botão nativo
 Paleta Suave: Fundo #f0f4f8 (azul-acinzentado suave) para redução de fadiga visual
 Feedback Visual: Botões responsivos com mudança de cor
  
 ✅ **Progressive Web App (PWA)**
+
 Instalação Nativa**: Instalavel como app nativo em Android/iOS/Desktop
 
 📋 Casos de Uso
