@@ -1,20 +1,17 @@
 {
   "name": "HUB de Saúde Digital",
   "short_name": "HSD",
-  "start_url": ".",
+  "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
+  "orientation": "portrait",
+  "background_color": "#f0f4f8",
   "theme_color": "#1e40af",
   "icons": [
     {
       "src": "iconhsd.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "iconhsd.png",
-      "sizes": "512x512",
-      "type": "image/png"
+      "sizes": "192x192 512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
