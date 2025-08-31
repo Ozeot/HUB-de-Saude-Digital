@@ -29,6 +29,14 @@ Feedback Visual: Botões responsivos com mudança de cor
 ✅ **Progressive Web App (PWA)**
 
 Instalação Nativa: Instalavel como app nativo em Android/iOS/Desktop
+Service Worker: funcionamento offline com cache inteligente, após a instalação do app
+
+## 📱 **Instalação**
+
+### **Como PWA (Recomendado):**
+1. Acesse o site no seu navegador
+2. Clique em "Instalar App" ou "Adicionar à tela inicial"
+3. Use como app nativo!
 
 📋 Casos de Uso
 
