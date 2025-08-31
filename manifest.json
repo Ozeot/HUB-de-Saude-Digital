@@ -3,15 +3,13 @@
   "short_name": "HSD",
   "start_url": "/",
   "display": "standalone",
-  "orientation": "portrait",
   "background_color": "#f0f4f8",
   "theme_color": "#1e40af",
   "icons": [
     {
       "src": "iconhsd.png",
-      "sizes": "192x192 512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "sizes": "any",
+      "type": "image/png"
     }
   ]
 }
