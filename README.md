@@ -28,7 +28,7 @@ Feedback Visual: Botões responsivos com mudança de cor
  
 ✅ **Progressive Web App (PWA)**
 
-Instalação Nativa**: Instalavel como app nativo em Android/iOS/Desktop
+Instalação Nativa: Instalavel como app nativo em Android/iOS/Desktop
 
 📋 Casos de Uso
 
